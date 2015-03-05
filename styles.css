@@ -1,0 +1,54 @@
+body {
+  padding: 30px;
+}
+
+#send {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background: #EEE;
+  padding: 5px 20px;
+  z-index: 1000;
+}
+
+input {
+  width: 85%;
+  height: 40px;
+  margin-top: 0;
+  outline: none;
+}
+
+button {
+  line-height: 30px;
+  padding: none;
+  margin-top: 0;
+}
+
+#chat {
+  margin-bottom: 40px;
+  min-height: 80%;
+}
+
+.system {
+  color: #bf5a16;
+  font-style: italic;
+}
+
+.pm {
+  color: red;
+}
+
+div#right {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 30%;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
