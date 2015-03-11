@@ -1,5 +1,5 @@
 {
-  "name": "IRC Client",
+  "name": "IRCClient",
   "version": "1.0.0",
   "description": "a node.js IRC client",
   "main": "index.html",
