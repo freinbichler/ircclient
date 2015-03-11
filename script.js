@@ -1,11 +1,11 @@
 var config = require('./config');
-
+var users = require('./users');
 var irc = require('irc');
+var $ = require('jquery');
+
 var client = new irc.Client(config.server, config.username, {
   channels: [config.channel]
 });
-
-var onlineUsers = {};
 
 client.addListener('message', function (from, to, message) {
   console.log(from + ' => ' + to + ': ' + message);
@@ -20,19 +20,19 @@ client.addListener('message', function (from, to, message) {
 client.addListener('join', function (channel, nick, message) {
   console.log(nick + ' joined ' + channel);
   showMessage(nick, 'joined ' + channel, true, false);
-  addToUserList(nick);
+  users.add(nick);
 });
 
 client.addListener('quit', function (nick, reason, channels, message) {
   console.log(nick + ' quit this channel');
   showMessage(nick, 'quit this channel', true, false);
-  deleteFromUserList(nick);
+  users.remove(nick);
 });
 
 client.addListener('part', function (channel, nick, reason, message) {
   console.log(nick + ' left this channel');
   showMessage(nick, 'left this channel', true, false);
-  deleteFromUserList(nick);
+  users.remove(nick);
 });
 
 client.addListener('registered', function (message) {
@@ -40,8 +40,7 @@ client.addListener('registered', function (message) {
 });
 
 client.addListener('names', function (channel, nicks) {
-  onlineUsers = nicks;
-  refreshOnlineUsers();
+  users.init(nicks);
   console.log(nicks);
 });
 
@@ -78,23 +77,6 @@ function showMessage(name, message, system, pm) {
   }
   $('#chat').append('<div class="row message ' + systemClass + ' ' + pmClass + '"><div class="col-xs-4 name">' + name + '</div><div class="col-xs-8 text">' + sanitize(message) + '</div></div>');
   $("body").animate({ scrollTop: $(document).height() }, "slow");
-}
-
-function refreshOnlineUsers() {
-  $('#users').html('');
-  for(var user in onlineUsers) {
-    $('#users').append('<li>' + user + '</li>');
-  }
-}
-
-function deleteFromUserList(nick) {
-  delete onlineUsers[nick];
-  refreshOnlineUsers();
-}
-
-function addToUserList(nick) {
-  onlineUsers[nick] = '';
-  refreshOnlineUsers();
 }
 
 function sanitize(text) {
