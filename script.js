@@ -16,9 +16,8 @@ client.addListener('message', function (from, to, message) {
   var beforeMessage = '';
   if(to == config.username) {
     isPM = true;
-    beforeMessage = '@' + config.username + ': ';
   }
-  showMessage(from, beforeMessage + message, false, isPM);
+  showMessage(from, message, false, isPM);
 });
 
 client.addListener('join', function (channel, nick, message) {
@@ -60,6 +59,11 @@ $('#message').on('keyup', function(e) {
 function send() {
   var message = $('#message').val();
   var to = config.channel;
+
+  if(message.charAt(0) == '@') {
+    var recipient = message.split(' ')[0];
+    to = recipient.replace('@', '');
+  }
 
   client.say(to, message);
   showMessage(config.username, message, false, false);
