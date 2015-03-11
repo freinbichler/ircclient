@@ -8,9 +8,7 @@ var client = new irc.Client(config.server, config.username, {
 });
 
 client.addListener('message', function (from, to, message) {
-  console.log(from + ' => ' + to + ': ' + message);
   var isPM = false;
-  var beforeMessage = '';
   if(to == config.username) {
     isPM = true;
   }
@@ -18,19 +16,16 @@ client.addListener('message', function (from, to, message) {
 });
 
 client.addListener('join', function (channel, nick, message) {
-  console.log(nick + ' joined ' + channel);
   showMessage(nick, 'joined ' + channel, true, false);
   users.add(nick);
 });
 
 client.addListener('quit', function (nick, reason, channels, message) {
-  console.log(nick + ' quit this channel');
   showMessage(nick, 'quit this channel', true, false);
   users.remove(nick);
 });
 
 client.addListener('part', function (channel, nick, reason, message) {
-  console.log(nick + ' left this channel');
   showMessage(nick, 'left this channel', true, false);
   users.remove(nick);
 });
@@ -41,7 +36,6 @@ client.addListener('registered', function (message) {
 
 client.addListener('names', function (channel, nicks) {
   users.init(nicks);
-  console.log(nicks);
 });
 
 $('button').on('click', send);
