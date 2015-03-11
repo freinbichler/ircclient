@@ -1,10 +1,7 @@
-var config = {
-  username: 'fr3ino',
-  channel: '#schnitzelwirt'
-};
+var config = require('./config');
 
 var irc = require('irc');
-var client = new irc.Client('chat.freenode.net', config.username, {
+var client = new irc.Client(config.server, config.username, {
   channels: [config.channel]
 });
 
